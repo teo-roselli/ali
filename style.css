@@ -1,622 +1,428 @@
 * {
   box-sizing: border-box;
-  }
+}
 
 html,
 body {
-margin: 0;
-background: #050713;
-color: #f6f1e9;
-font-family: Montserrat, sans-serif;
-overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: #050713;
+  color: #f6f1e9;
+  font-family: "Montserrat", sans-serif;
+  overflow: hidden;
 }
 
-/* SFONDO */
-
 body {
-background:
-radial-gradient(
-circle at 50% 20%,
-#424b802e,
-transparent 34%
-),
-radial-gradient(
-circle at 80% 85%,
-#6c43641f,
-transparent 28%
-),
-#050713;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(66, 75, 128, 0.18), transparent 34%),
+    radial-gradient(circle at 80% 85%, rgba(108, 67, 100, 0.12), transparent 28%),
+    #050713;
 }
 
 /* STELLE */
 
 .stars,
 .shooting {
-position: fixed;
-inset: 0;
-pointer-events: none;
-overflow: hidden;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .stars {
-z-index: 0;
+  z-index: 0;
 }
 
-.stars:before {
-content: "";
-position: absolute;
-inset: -20%;
-
-background-image:
-radial-gradient(
-circle,
-#fff 0 1px,
-transparent 1.5px
-),
-radial-gradient(
-circle,
-#ffffff99 0 1px,
-transparent 1.4px
-);
-
-background-size:
-130px 130px,
-190px 190px;
-
-animation: drift 30s linear infinite;
+.stars::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    radial-gradient(circle, #ffffff 0 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(255,255,255,0.5) 0 1px, transparent 1.5px);
+  background-size: 130px 130px, 190px 190px;
+  animation: drift 30s linear infinite;
 }
 
 @keyframes drift {
+  from {
+    transform: translate(0, 0);
+  }
 
-to {
-transform: translate(-30px, 25px);
-}
-
+  to {
+    transform: translate(-30px, 25px);
+  }
 }
 
 /* STELLE CADENTI */
 
 .shooting {
-z-index: 1;
+  z-index: 1;
 }
 
-.shooting:before,
-.shooting:after {
-content: "";
-
-position: absolute;
-
-width: 110px;
-height: 1px;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-#fff
-);
-
-transform: rotate(-35deg);
-
-opacity: 0;
-
-animation:
-shoot 8s ease-in-out infinite;
+.shooting::before,
+.shooting::after {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffffff);
+  transform: rotate(-35deg);
+  opacity: 0;
+  animation: shootingStar 8s ease-in-out infinite;
 }
 
-.shooting:before {
-top: 18%;
-left: 75%;
-animation-delay: 2s;
+.shooting::before {
+  top: 18%;
+  left: 75%;
+  animation-delay: 2s;
 }
 
-.shooting:after {
-top: 35%;
-left: 18%;
-width: 80px;
-animation-delay: 5s;
+.shooting::after {
+  top: 35%;
+  left: 18%;
+  width: 80px;
+  animation-delay: 5s;
 }
 
-@keyframes shoot {
+@keyframes shootingStar {
+  0%,
+  70%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-35deg);
+  }
 
-0%,
-70%,
-100% {
-opacity: 0;
+  74% {
+    opacity: 1;
+  }
+
+  82% {
+    opacity: 0;
+    transform: translate(-180px, 130px) rotate(-35deg);
+  }
 }
 
-74% {
-opacity: 1;
-}
-
-82% {
-opacity: 0;
-
-```
-transform:
-  translate(-180px, 130px)
-  rotate(-35deg);
-```
-
-}
-
-}
-
-/* CONTENITORE */
+/* STRUTTURA */
 
 main {
-position: relative;
-height: 100svh;
-z-index: 2;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  z-index: 2;
 }
 
-/* SCHERMATE */
-
 .screen {
+  position: absolute;
+  inset: 0;
 
-position: absolute;
-inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-display: flex;
+  width: 100%;
+  height: 100%;
 
-align-items: center;
-justify-content: center;
+  padding: 45px 22px 70px;
 
-padding: 45px 22px 70px;
+  text-align: center;
 
-text-align: center;
+  opacity: 0;
+  visibility: hidden;
 
-opacity: 0;
-visibility: hidden;
+  transform: translateY(18px) scale(0.985);
 
-transform:
-translateY(18px)
-scale(.985);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease,
+    visibility 0.7s ease;
 
-transition:
-opacity .7s ease,
-transform .7s ease,
-visibility .7s;
-
-overflow-y: auto;
-
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .screen.active {
-
-opacity: 1;
-
-visibility: visible;
-
-transform: none;
-
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
 }
 
 .screen > div {
-
-width: min(920px, 100%);
-
+  width: min(920px, 100%);
 }
 
 .narrow {
-
-max-width: 650px !important;
-
-margin: auto;
-
+  width: min(650px, 100%) !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* TESTI */
 
 small {
-
-display: block;
-
-color: #d9c49b;
-
-font-size: 10px;
-
-letter-spacing: .26em;
-
-font-weight: 500;
-
+  display: block;
+  color: #d9c49b;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  line-height: 1.6;
 }
 
 h1,
 h2 {
-
-font-family:
-"Cormorant Garamond",
-serif;
-
-font-weight: 500;
-
-line-height: .94;
-
-letter-spacing: -.025em;
-
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.025em;
 }
 
 h1 {
-
-font-size:
-clamp(52px, 15vw, 100px);
-
-margin: 20px 0;
-
+  font-size: clamp(52px, 15vw, 100px);
 }
 
 h2 {
-
-font-size:
-clamp(42px, 10vw, 76px);
-
-margin: 20px 0;
-
+  font-size: clamp(42px, 10vw, 76px);
 }
 
 em {
-
-font-style: italic;
-
-color: #e7d6b4;
-
+  color: #e7d6b4;
+  font-style: italic;
 }
 
 p {
-
-color: #aaa8ad;
-
-font-weight: 300;
-
-line-height: 1.9;
-
-font-size: 14px;
-
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #aaa8ad;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.9;
 }
-
-/* STELLA */
 
 .screen b {
-
-color: #d9c49b;
-
-font-size: 28px;
-
-display: block;
-
-margin-bottom: 22px;
-
+  display: block;
+  margin-bottom: 22px;
+  color: #d9c49b;
+  font-size: 28px;
 }
 
-/* TESTO CENTRALE */
+/* TESTI SPECIALI */
 
 .tease,
 .highlight {
-
-font-family:
-"Cormorant Garamond",
-serif;
-
-font-size: 30px;
-
-line-height: 1.2;
-
-margin: 38px 0;
-
+  margin-top: 38px;
+  margin-bottom: 38px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 30px;
+  line-height: 1.2;
 }
 
 .tease span {
-
-font-family: Montserrat;
-
-font-size: 11px;
-
-color: #aaa8ad;
-
+  font-family: "Montserrat", sans-serif;
+  color: #aaa8ad;
+  font-size: 11px;
 }
 
 /* BOTTONI */
 
 button,
 .music {
-
-font-family: Montserrat;
-
-border: 0;
-
-cursor: pointer;
-
+  font-family: "Montserrat", sans-serif;
 }
 
 .screen button {
-
-margin-top: 25px;
-
-padding: 14px 25px;
-
-border-radius: 999px;
-
-background: #eee4d1;
-
-color: #171513;
-
-font-size: 10px;
-
-letter-spacing: .13em;
-
-text-transform: uppercase;
-
+  margin-top: 25px;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 999px;
+  background: #eee4d1;
+  color: #171513;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
 }
 
 .ghost,
 .restart {
-
-background: transparent !important;
-
-color: #f6f1e9 !important;
-
-border-bottom:
-1px solid #ffffff29 !important;
-
-border-radius: 0 !important;
-
-padding: 9px 2px !important;
-
+  border-radius: 0 !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.16) !important;
+  background: transparent !important;
+  color: #f6f1e9 !important;
+  padding: 9px 2px !important;
 }
 
 /* INDICAZIONE */
 
 .hint {
-
-position: absolute;
-
-bottom: 28px;
-
-color: #ffffff59;
-
-font-size: 9px;
-
-letter-spacing: .18em;
-
-text-transform: uppercase;
-
+  position: absolute;
+  bottom: 28px;
+  color: rgba(255,255,255,0.35);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 /* FOTO */
 
 .photos {
-
-display: grid;
-
-grid-template-columns:
-repeat(3, minmax(0, 1fr));
-
-gap: 18px;
-
-width: min(100%, 1000px);
-
-margin: 38px auto 35px;
-
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 38px auto 45px;
+  padding: 0;
 }
 
 .photos figure {
-
-margin: 0;
-
-min-width: 0;
-
+  width: 100%;
+  margin: 0;
 }
-
-/* CONTENITORE FOTO */
 
 .photo {
-
-width: 100%;
-
-aspect-ratio: 4 / 5;
-
-overflow: hidden;
-
-background: #ffffff08;
-
-border:
-1px solid #ffffff29;
-
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.03);
 }
-
-/* IMMAGINE */
 
 .photos img {
-
-display: block;
-
-width: 100%;
-
-height: 100%;
-
-object-fit: cover;
-
-transition:
-transform .7s ease;
-
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-
-/* EFFETTO PASSAGGIO MOUSE */
-
-.photos img:hover {
-
-transform: scale(1.035);
-
-}
-
-/* DIDA */
 
 figcaption {
-
-font:
-19px / 1.2
-"Cormorant Garamond",
-serif;
-
-color: #aaa8ad;
-
-margin-top: 12px;
-
+  width: 100%;
+  margin-top: 13px;
+  color: rgba(246,241,233,0.68);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 19px;
+  line-height: 1.2;
+  text-align: center;
 }
 
-/* DISCO MUSICA */
+/* MUSICA */
 
 .disc {
-
-width: 78px;
-
-height: 78px;
-
-border:
-1px solid #ffffff29;
-
-border-radius: 50%;
-
-display: grid;
-
-place-items: center;
-
-margin: 0 auto 28px;
-
-color: #d9c49b;
-
-font-size: 28px;
-
-animation:
-spin 8s linear infinite;
-
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 28px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 50%;
+  color: #d9c49b;
+  font-size: 28px;
+  animation: spin 8s linear infinite;
 }
 
 @keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
 
-to {
-transform: rotate(360deg);
+  to {
+    transform: rotate(360deg);
+  }
 }
-
-}
-
-/* LINK MUSICA */
 
 .music {
-
-display: inline-block;
-
-margin: 25px 0 8px;
-
-padding: 14px 22px;
-
-border:
-1px solid #d9c49b73;
-
-border-radius: 999px;
-
-color: #eadbbf;
-
-text-decoration: none;
-
-font-size: 10px;
-
-letter-spacing: .14em;
-
-text-transform: uppercase;
-
+  display: inline-block;
+  margin: 25px 0 8px;
+  padding: 14px 22px;
+  border: 1px solid rgba(217,196,155,0.45);
+  border-radius: 999px;
+  color: #eadbbf;
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-/* TESTO PICCOLO */
-
 .tiny {
-
-font-size: 9px;
-
-color: #ffffff59;
-
-max-width: 360px;
-
-margin: auto;
-
+  max-width: 360px;
+  color: rgba(255,255,255,0.35);
+  font-size: 9px;
 }
 
 /* FINALE */
 
 .finalstars {
-
-color: #d9c49b;
-
-margin-bottom: 25px;
-
+  margin-bottom: 25px;
+  color: #d9c49b;
 }
 
 .signature {
-
-font:
-italic 28px
-"Cormorant Garamond";
-
-color: #d9c49b;
-
-margin-top: 34px;
-
+  margin-top: 34px;
+  color: #d9c49b;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 28px;
+  font-style: italic;
 }
 
 .ps {
-
-font-size: 10px;
-
-color: #ffffff59;
-
-margin-top: 35px;
-
+  margin-top: 35px;
+  color: rgba(255,255,255,0.35);
+  font-size: 10px;
 }
 
 /* BARRA */
 
 .bar {
-
-position: fixed;
-
-bottom: 14px;
-
-left: 50%;
-
-transform: translateX(-50%);
-
-width: 100px;
-
-height: 1px;
-
-background: #ffffff1f;
-
-z-index: 10;
-
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  width: 100px;
+  height: 1px;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.12);
+  z-index: 10;
 }
 
 .bar i {
-
-display: block;
-
-width: 0;
-
-height: 100%;
-
-background: #d9c49b;
-
-transition: .7s;
-
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #d9c49b;
+  transition: width 0.7s ease;
 }
 
-/* ========================= */
 /* TELEFONO */
-/* ========================= */
 
 @media (max-width: 650px) {
 
-  /* La sezione dei ricordi diventa verticale */
+  .screen {
+    align-items: flex-start;
+    padding: 55px 20px 80px;
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+
+  h2 {
+    font-size: 43px;
+    line-height: 0.98;
+  }
+
+  p {
+    max-width: 330px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  /* FOTO UNA SOTTO L'ALTRA */
+
   .photos {
     display: flex;
     flex-direction: column;
@@ -625,90 +431,81 @@ transition: .7s;
     width: 100%;
     max-width: 100%;
 
-    gap: 55px;
+    gap: 60px;
 
-    margin: 35px auto 45px;
-
+    margin: 40px auto 50px;
     padding: 0;
   }
 
-
-  /* Ogni ricordo occupa quasi tutto lo schermo,
-     ma non completamente */
   .photos figure {
+    display: block;
     width: 88%;
     max-width: 360px;
-
     margin: 0 auto;
   }
 
-
-  /* FOTO GRANDE */
   .photo {
     width: 100%;
     aspect-ratio: 4 / 5;
-
     overflow: hidden;
-
-    border:
-      1px solid rgba(255,255,255,.16);
-
-    box-shadow:
-      0 15px 45px rgba(0,0,0,.25);
   }
-
 
   .photos img {
     display: block;
-
     width: 100%;
     height: 100%;
-
     object-fit: cover;
   }
 
-
-  /* TESTO SOTTO LA FOTO */
-  .photos figcaption {
-
+  figcaption {
     width: 92%;
+    margin: 16px auto 0;
 
-    margin:
-      16px auto 0;
-
-    font-family:
-      "Cormorant Garamond",
-      serif;
-
+    font-family: "Cormorant Garamond", serif;
     font-size: 20px;
-
-    line-height: 1.35;
+    line-height: 1.3;
 
     text-align: center;
-
-    color: rgba(246,241,233,.68);
   }
 
+  .tease,
+  .highlight {
+    font-size: 28px;
+    line-height: 1.25;
+  }
 
-  /* Titoli più equilibrati sul telefono */
-  h2 {
+  .disc {
+    width: 70px;
+    height: 70px;
+  }
+
+  .bar {
+    bottom: 10px;
+  }
+}
+
+/* TELEFONI PICCOLI */
+
+@media (max-width: 380px) {
+
+  .screen {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  h1 {
     font-size: 46px;
-    line-height: .98;
   }
 
-
-  /* Il testo generale non deve arrivare
-     attaccato ai bordi */
-  .screen p {
-    max-width: 340px;
-    margin-left: auto;
-    margin-right: auto;
+  h2 {
+    font-size: 38px;
   }
 
-
-  /* Spazio sotto l'ultima foto */
-  #memories > div {
-    padding-bottom: 40px;
+  .photos figure {
+    width: 92%;
   }
 
+  figcaption {
+    font-size: 18px;
+  }
 }
